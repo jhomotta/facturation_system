@@ -1,0 +1,18 @@
+version: "3.3"
+    
+services:
+  db:
+    image: mysql:8.0
+    container_name: 'db'
+    ports:
+      - "33060:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: facturation_system
+      #      MYSQL_USER: sandbox_user
+      #      MYSQL_PASSWORD: passpass
+      #      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - $PWD/migrations/data:/var/lib/mysql
+      - $PWD/migrations/sql:/docker-entrypoint-initdb.d
+      - $PWD/migrations/my.cnf:/etc/mysql/conf.d/my.cnf
