@@ -38,13 +38,14 @@ public class Sale extends BaseAuditory {
 
   @PostLoad
   private void calculateTheTotalOfTheSale() {
-    try {
-      this.totalSale = this.getSaleDetails().stream()
-              .mapToDouble(detail -> detail.getQuantity() * detail.getPrice())
-              .sum();
-    } catch (Exception e) {
-      // TODO validar errro  Cannot invoke "java.lang.Integer.intValue()" because the return value of "com.ada.facturationsystem.domain.models.entity.SaleDetail.getQuantity()" is null
+    double totalSale = 0;
+    for (SaleDetail detail : this.getSaleDetails()) {
+      Integer quantity = detail.getQuantity();
+      if (quantity != null) {
+        totalSale += quantity * detail.getPrice();
+      }
     }
+    this.totalSale = totalSale;
   }
 
 }
